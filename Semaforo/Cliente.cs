@@ -15,29 +15,21 @@ namespace Semaforo
         {
             bebidas = new Queue<Bebida>();
         }
-        public void pedirBebida()
-        {
-            while (true)
-            {
-                foreach (var bebida in bebidas)
-                {
-                    if (alcanzaPara(bebida))
-                    {
-                        plata = plata - bebida.precio;
-                        bebidas.Dequeue();
-                    }
-                    break;
-                }
-            }
-        }
 
-        private bool alcanzaPara(Bebida bebida)
-        {
-            return plata >= bebida.precio;
-        }
+        private bool alcanzaPara(Bebida bebida) => plata >= bebida.precio;
 
-        public bool MeAlcanzaPara() => alcanzaPara(BebidaDeseada);
+        public bool AlcanzaDeseada() => alcanzaPara(BebidaDeseada);
 
         public bool SeguirTomando => bebidas.Count != 0;
+
+        public void TomarBebida() => bebidas.Dequeue();
+
+        public void Comprar()
+        {
+            decrmentarPlataEnBebida();
+            TomarBebida();
+        }
+
+        private void decrmentarPlataEnBebida() => plata -= BebidaDeseada.precio;
     }
 }
