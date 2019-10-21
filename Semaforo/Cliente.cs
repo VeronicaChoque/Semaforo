@@ -26,10 +26,10 @@ namespace Semaforo
 
         public void Comprar()
         {
-            decrmentarPlataEnBebida();
+            decrmentarPlataPorBebida();
             TomarBebida();
         }
 
-        private void decrmentarPlataEnBebida() => plata -= BebidaDeseada.precio;
+        private void decrmentarPlataPorBebida() => plata -= BebidaDeseada.precio;
     }
 }
