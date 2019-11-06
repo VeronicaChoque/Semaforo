@@ -31,5 +31,10 @@ namespace Semaforo
         }
 
         private void decrmentarPlataPorBebida() => plata -= BebidaDeseada.precio;
+
+        public void agregarBebida(Bebida bebida)
+        {
+            bebidas.Enqueue(bebida);
+        }
     }
 }
