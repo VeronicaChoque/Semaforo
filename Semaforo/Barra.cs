@@ -16,29 +16,31 @@ namespace Semaforo
         //public List<Task> tareas { get; set; }
         public Queue<Cliente> capacidad { get; set; }
         public List<Bebida> bebidas { get; set; }
-        public Barra() { capacidad = new Queue<Cliente>(); }
+        public Barra() { capacidad = new Queue<Cliente>();
+                         bebidas = new List<Bebida>(); }
 
         
         public void clienteEntraAlBar(Cliente cliente)
         {
             semaforo.WaitOne();
+            Console.WriteLine("{0} entro al bar",cliente.nombre);
             do
             {
                 if (!hayStockDe(cliente.BebidaDeseada))
                 {
-                    Console.WriteLine("Cliente se va por insuficiencia de stock.");
+                    Console.WriteLine($"{cliente.nombre} se va por insuficiencia de stock.");
                     break;
                 }
                 if (!cliente.AlcanzaDeseada())
                 {
-                    Console.WriteLine("Cliente se va porque no tiene mas plata.");
+                    Console.WriteLine("{0} se va porque no tiene mas plata.",cliente.nombre);
                     break;
                 }
-                Console.WriteLine("El cliente tomara {0}",cliente.BebidaDeseada.nombre);
+                Console.WriteLine("{0} tomara {1}",cliente.nombre,cliente.BebidaDeseada.nombre);
                 cliente.Comprar();
 
             } while (cliente.SeguirTomando);
-            Console.WriteLine("El cliente se va del bar.");
+            Console.WriteLine("{0} se va del bar.",cliente.nombre);
             semaforo.Release();
         }
 
@@ -59,6 +61,18 @@ namespace Semaforo
             }
             tareas.ForEach(t=>t.Start());
             semaforo.Release(personaEnSimultanio);
+            Task.WaitAll(tareas.ToArray());
+
+        }
+
+        public void agregarCliente(Cliente cliente)
+        {
+            capacidad.Enqueue(cliente);
+        }
+
+        public void agregarBebida(Bebida bebida)
+        {
+            bebidas.Add(bebida);
         }
     }
 }
