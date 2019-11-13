@@ -38,7 +38,8 @@ namespace Semaforo
                 }
                 Console.WriteLine("{0} tomara {1}",cliente.nombre,cliente.BebidaDeseada.nombre);
                 cliente.Comprar();
-
+                Console.WriteLine("{0} tomara un tiempo de descanso.",cliente.nombre);
+                Thread.Sleep(cliente.tiempoConsumo);
             } while (cliente.SeguirTomando);
             Console.WriteLine("{0} se va del bar.",cliente.nombre);
             semaforo.Release();
